@@ -1,0 +1,76 @@
+<h2>Tint Generator</h2>
+
+<form id="pluginForm">
+  <fieldset>
+    <legend>Color Tint generator</legend>
+    <p>
+      <label for="colorCode">Color</label>
+      <input type="color" id="colorCode" name="colorCode" value="#FF8000" />
+    </p>
+    <p>
+      <label for="colorName">Color name</label>
+      <input type="text" id="colorName" name="colorName" value="Primary" />
+    </p>
+    <p>
+      <label for="numberOfTints"> No. of Tints</label>
+      <input
+        type="number"
+        id="numberOfTints"
+        name="numberOfTints"
+        value="10"
+        min="1"
+        max="10"
+      />
+    </p>
+    <p>
+      <label for="circleSpacing"> Circle Spacing</label>
+      <input
+        type="number"
+        id="circleSpacing"
+        name="circleSpacing"
+        value="32"
+        min="1"
+        max="64"
+      />
+    </p>
+    <p>
+      <label for="circleSize"> Circle Size</label>
+      <input
+        type="number"
+        id="circleSize"
+        name="circleSize"
+        value="100"
+        min="1"
+        max="500"
+      />
+    </p>
+  </fieldset>
+  <p>
+    <button id="generate">Generate tints</button>
+    <button id="cancel">Cancel</button>
+  </p>
+</form>
+
+<script>
+document.getElementById('generate').onclick = (event) => {
+  event.preventDefault();
+
+  const pluginForm = document.getElementById('pluginForm');
+  let pluginFormData = new FormData(pluginForm);
+
+  // console.log(pluginFormData);
+  let formData = {}
+
+  for( let [key,value] of pluginFormData){
+    formData[key]= value
+  }
+  // console.log("FormData", formData);
+
+  parent.postMessage({ pluginMessage: { type: 'generate-tints', formData:formData } }, '*')
+}
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+}
+
+</script>
